@@ -1,10 +1,6 @@
 CSL-Tox
 ================
 
-``` r
-knitr::opts_chunk$set( message = FALSE, echo = TRUE, warning = FALSE)
-```
-
 This tutorial contains the necessary scripts and data to reproduce the
 work explained in the paper “CSL-Tox: An open-source analytical
 framework for the comparison of short-term and long-term toxicity end
@@ -101,6 +97,7 @@ knitr::kable(summary(Data))
 -   Plotting an overview of the data:
 
 ``` r
+#importing the script containing the functions
 source("DataExploratoryPlots.R")
 ```
 
@@ -108,31 +105,31 @@ source("DataExploratoryPlots.R")
 Therapeutic_Areas.fn(Data$MainData)
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 Different_Species.fn(Data$MainData)
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 Dist.St.fn(Data$MainData)
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 ``` r
 StudiesPerFindingCat(Data$MainData)
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
  Dist.St.fn(Data$MainData)
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ## 3- Data analysis
 
@@ -144,7 +141,7 @@ adversity of molecules, NOAEL changes and likelihood ratios.
     observed “1” or not observed “0” in short, middle and long studies
 
 ``` r
-#executing the script
+#importing the script containing the functions
 source("Appearance_Functions.R")
 Appearance=map_dfr(.x =unique(Data$MainData$identifier),.f = Appear_Drug, Data)
 ```
@@ -279,7 +276,7 @@ Adversity summary for large molecules
 #### (ii) Calculation of the NOAEL changes from short to long-term studies
 
 ``` r
-#importing the NOAEL change script
+#importing the script containing the functions
 source("NOAEL_Change.R")
 #table with results for sm
 knitr::kable(result_sm, caption = "Noael changes for small molecules")
@@ -371,6 +368,7 @@ Noael changes for large molecules
 #### (iii) Calculation of the Likelihood ratios
 
 ``` r
+#importing the script containing the functions
 source("LikelihoodRatio.R")
 ```
 
@@ -383,8 +381,8 @@ animal = "rodent"
 Likelihood.Ratio=Likelihood.Ratio.fn(Summarised.Appearance %>% filter(species== animal))
 ```
 
-Round values and select only significant likelihood ratios with pvalues
-\< 0.05
+-   Round values and select only significant likelihood ratios with
+    pvalues \< 0.05
 
 ``` r
 Likelihood.Ratio[,-1]=round(Likelihood.Ratio[,-1],2)
@@ -409,13 +407,14 @@ knitr::kable(Likelihood.Ratio.imp,caption = "Significant Likelihood ratios for r
 
 Significant Likelihood ratios for rodents for all findings
 
-Plot frequency of fp and fn across the findings in rodent and non-rodent
+-   Plot frequency of fp and fn across the findings in rodent and
+    non-rodent
 
 ``` r
 Appear_plot(dataf = Likelihood.Ratio.imp ,species = "rodent", legend_pos=c(0.90,0.90))
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
 
 -   Calculate contingency tables and likelihood ratios for adverse
     findings only (using the adverse appearance table this time)
@@ -424,8 +423,8 @@ Appear_plot(dataf = Likelihood.Ratio.imp ,species = "rodent", legend_pos=c(0.90,
 Adverse.Likelihood.Ratio=Likelihood.Ratio.fn(Summarised.Adverse.Appearance %>% filter(species== animal))
 ```
 
-Round values and select only significant likelihood ratios with pvalues
-\< 0.05
+-   Round values and select only significant likelihood ratios with
+    pvalues \< 0.05
 
 ``` r
 Adverse.Likelihood.Ratio[,-1]=round(Adverse.Likelihood.Ratio[,-1],2)
@@ -461,12 +460,13 @@ knitr::kable(Adverse.Likelihood.Ratio,caption = "Significant Likelihood ratios f
 Significant Likelihood ratios for rodents for adverse findings in
 rodents
 
-Plot frequency of fp and fn across the adverse findings
+-   Plot frequency of fp and fn across the adverse findings
 
 ``` r
 Appear_plot(dataf = Adverse.Likelihood.Ratio.imp ,species = "rodent", legend_pos=c(0.90,0.90))
 ```
 
-![](CSL-Tox_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](CSL-Tox_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
-The previous can be repeated for the non-rodent species as well.
+The previous steps are repeated to generate the results for the
+non-rodent species
