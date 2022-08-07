@@ -20,6 +20,7 @@ conducted for drug development programs.”
 ``` r
 library(tidyverse)
 library(purrr)
+#importing scripts containing functions for reading the data and transform the dataset
 source("ReadingData.R")
 source("ChangeDataset.R")
 options(knitr.kable.NA = '')
@@ -382,7 +383,7 @@ Likelihood.Ratio=Likelihood.Ratio.fn(Summarised.Appearance %>% filter(species== 
 ```
 
 -   Round values and select only significant likelihood ratios with
-    pvalues \< 0.05
+    p-values \< 0.05
 
 ``` r
 Likelihood.Ratio[,-1]=round(Likelihood.Ratio[,-1],2)
@@ -424,7 +425,7 @@ Adverse.Likelihood.Ratio=Likelihood.Ratio.fn(Summarised.Adverse.Appearance %>% f
 ```
 
 -   Round values and select only significant likelihood ratios with
-    pvalues \< 0.05
+    p-values \< 0.05
 
 ``` r
 Adverse.Likelihood.Ratio[,-1]=round(Adverse.Likelihood.Ratio[,-1],2)
@@ -469,4 +470,4 @@ Appear_plot(dataf = Adverse.Likelihood.Ratio.imp ,species = "rodent", legend_pos
 ![](CSL-Tox_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
 
 The previous steps are repeated to generate the results for the
-non-rodent species
+non-rodent species.
